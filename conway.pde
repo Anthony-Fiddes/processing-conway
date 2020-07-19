@@ -106,24 +106,33 @@ class Cell {
 
 Board board;
 float cellHeight;
+boolean paused = true;
 
 void setup() {
   fullScreen();
   board = new Board();
   cellHeight = board.cells[0][0].diameter;
+  board.draw();
 }
 
-void mouseDragged() {
+void mousePressed() {
   if (board == null) {
     return;
   }
   int x = mouseX / (int) cellHeight;
   int y = mouseY / (int) cellHeight;
-  board.cells[x][y].on();
+  board.cells[x][y].alive = !board.cells[x][y].alive;
   board.draw();
 }
 
 void draw() {
-  board.drawNext();
+  if (keyPressed) {
+    if (key == ' ') {
+      paused = !paused;
+    }
+  }
+  if (!paused) {
+    board.drawNext();
+  }
   delay(100);
 }
