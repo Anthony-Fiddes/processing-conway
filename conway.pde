@@ -3,7 +3,6 @@ class Board {
   int WIDTH = 80;
   int HEIGHT = 45;
   Cell[][] cells = new Cell[WIDTH][HEIGHT];
-  Cell[][] next = new Cell[WIDTH][HEIGHT];
 
   Board() {
     float squareHeight = width / WIDTH;
@@ -29,13 +28,13 @@ class Board {
   }
 
   void next() {
-    next = new Cell[WIDTH][HEIGHT];
+    Cell[][] nextGen = new Cell[WIDTH][HEIGHT];
     for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {
-        next[i][j] = cells[i][j].next(getNeighbors(i, j));
+        nextGen[i][j] = cells[i][j].next(getNeighbors(i, j));
       }
     }
-    cells = next;
+    cells = nextGen;
   }
 
   void draw() {
