@@ -3,6 +3,7 @@ class Board {
   int WIDTH = 80;
   int HEIGHT = 45;
   Cell[][] cells = new Cell[WIDTH][HEIGHT];
+  Cell[][] next = new Cell[WIDTH][HEIGHT];
 
   Board() {
     float squareHeight = width / WIDTH;
@@ -28,11 +29,13 @@ class Board {
   }
 
   void next() {
+    next = new Cell[WIDTH][HEIGHT];
     for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {
-        cells[i][j].next(getNeighbors(i, j));
+        next[i][j] = cells[i][j].next(getNeighbors(i, j));
       }
     }
+    cells = next;
   }
 
   void draw() {
@@ -63,6 +66,13 @@ class Cell {
     this.diameter = diameter;
   }
 
+  Cell(Cell cell) {
+    this.x = cell.x;
+    this.y = cell.y;
+    this.diameter = cell.diameter;
+    this.alive = cell.alive;
+  }
+
   void on() {
     alive = true;
   }
@@ -75,7 +85,7 @@ class Cell {
     return alive;
   }
 
-  void next(ArrayList < Cell > neighbors) {
+  Cell next(ArrayList < Cell > neighbors) {
     int liveNeighbors = 0;
     for (Cell cell: neighbors) {
       if (cell.isAlive()) {
@@ -83,15 +93,17 @@ class Cell {
       }
     }
     // Conway's rules
+    Cell nextCell = new Cell(this);
     if (alive) {
       if (liveNeighbors < 2 || liveNeighbors > 3) {
-        off();
+        nextCell.off();
       }
     } else {
       if (liveNeighbors == 3) {
-        on();
+        nextCell.on();
       }
     }
+    return nextCell;
   }
 
   void draw() {
