@@ -121,6 +121,7 @@ boolean paused = true;
 
 void setup() {
   fullScreen();
+  frameRate(20);
   board = new Board();
   cellHeight = board.cells[0][0].diameter;
   board.draw();
@@ -136,14 +137,14 @@ void mousePressed() {
   board.draw();
 }
 
-void draw() {
-  if (keyPressed) {
-    if (key == ' ') {
-      paused = !paused;
-    }
+void keyPressed() {
+  if (key == ' ') {
+    paused = !paused;
   }
+}
+
+void draw() {
   if (!paused) {
     board.drawNext();
   }
-  delay(100);
 }
