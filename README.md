@@ -1,2 +1,2 @@
-# processing-conway
-A simple visualization of Conway's game of life made in processing.
+# Processing Experiments
+A repository of my different forays into processing. I'm just having some fun here :D
